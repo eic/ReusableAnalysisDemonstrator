@@ -1,0 +1,12 @@
+# ===============================================
+# @file    template.yml
+# @authors Derek Anderson
+#          (derek.murphy.anderson@protonmail.com)
+# -----------------------------------------------
+# @brief Template datacard. Cardio processes
+#   this when generating output datacards.
+#   Information such as GitHub, Inputs, etc.
+#   are copied into the output datacard.
+# ===============================================
+
+TODO: "here"

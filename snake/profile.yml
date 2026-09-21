@@ -1,0 +1,19 @@
+# ============================================================================= 
+# @file    profile.yml
+# @authors Derek Anderson (derek.murphy.anderson@protonmail.com)
+# -----------------------------------------------------------------------------
+# @brief Snakemake profile for running with slurm. 
+# =============================================================================
+
+scheduler: "greedy"
+executor: "slurm"
+jobs: 100
+default-resources:
+  slurm_account: "eic" # <<< CHANGE ME
+  slurm_partition: "ifarm" # <<< CHANGE ME
+  mem_mb: 4000
+  runtime: 60
+  tmpdir: "/w/eic-scshelf2104/users/dereka/scratch/tmp"
+remote-job-local-storage-prefix: "/w/eic-scshelf2104/users/dereka/scratch/slurm" # <<< CHANGE ME
+local-storage-prefix: "/w/eic-scshelf2104/users/dereka/scratch/snakemake" # <<< CHANGE ME
+#precommand: "export TMPDIR=/w/eic-scshelf2104/users/dereka/scratch/tmp" # <<< CHANGE ME
