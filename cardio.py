@@ -87,7 +87,7 @@ class Card:
         protocol is 'rucio', will query file
         catalog based on `identifier`.
         """
-        os.makedirs(os.path.dirname(name))
+        os.makedirs(os.path.dirname(name), exist_ok=True)
         if protocol == "rucio":
             rucio_did = self.data["identifier"]
             os.system(f"rucio replica list file --protocols root --pfns --rses isopenaccess {rucio_did} > {name}")

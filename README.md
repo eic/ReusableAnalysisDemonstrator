@@ -6,18 +6,26 @@ a simple Python module, `cardio`, which automates the creation and
 reading from a YAML datacard.
 
 
+### To-Do
+- [ ] Implement cardio
+  - Still need to dump rules
+- [x] Set up example cards
+- [x] Implement initial snakemake workflow w/ cardio
+- [ ] Remove hard-coded references to input card
+- [ ] Split out workflow commands from Snakefile
+- [ ] Run full example
+
+
 ### File Structures
 
 ```
 |-- analysis
 |    |-- MakeValidationHists.C # process eicrecon output to make hists
 |    `-- MakeValidationPlots.C # make plots from output of *hists.C
-|-- cardio.py # cardio implementation
-|-- input.yml # example input datacard
-|-- README.md # description, quickstart
-|-- snake
-|    |-- config.yml  # workflow constants
-|    `-- profile.yml # slurm parameters for snakemake
+|-- cardio.py  # cardio implementation
+|-- config.yml # snakemake workflow parameters
+|-- input.yml  # example input datacard
+|-- README.md  # description, quickstart
 |-- Snakefile    # snakemake workflow
 `-- template.yml # template output datacard
 ```

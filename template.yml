@@ -16,11 +16,9 @@
 #   - validation data would want to have
 #     something that ties it to the campaign
 #     or pipeline it's for
-identifier:
-  "epic:reusable_analysis_demo:output"
+identifier: "epic:reusable_analysis_demo:output"
 
-description:
-  "Jet validation plots for resuable analysis demonstration"
+description: "Jet validation plots for resuable analysis demonstration"
 
 # inputs point back to relevant datacards,
 # using them as stand-ins for either
@@ -32,8 +30,7 @@ inputs:
 # cardio will append all files 
 # in this location to the output
 # card
-location:
-  "./out"
+location: "./out"
 
 # TODO add rules
 
