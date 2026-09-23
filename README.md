@@ -9,17 +9,17 @@ reading from a YAML datacard.
 ### File Structures
 
 ```
-+-- analysis
-|    +-- MakeValidationHists.C # process eicrecon output to make hists
-|    \-- MakeValidationPlots.C # make plots from output of *hists.C
-+-- cardio.py # cardio implementation
-+-- input.yml # example input datacard
-+-- README.md # description, quickstart
-+-- snake
-|    +-- config.yml  # workflow constants
-|    \-- profile.yml # slurm parameters for snakemake
-+-- Snakefile    # snakemake workflow
-+-- template.yml # template output datacard
+|-- analysis
+|    |-- MakeValidationHists.C # process eicrecon output to make hists
+|    `-- MakeValidationPlots.C # make plots from output of *hists.C
+|-- cardio.py # cardio implementation
+|-- input.yml # example input datacard
+|-- README.md # description, quickstart
+|-- snake
+|    |-- config.yml  # workflow constants
+|    `-- profile.yml # slurm parameters for snakemake
+|-- Snakefile    # snakemake workflow
+`-- template.yml # template output datacard
 ```
 
 ### Usage
