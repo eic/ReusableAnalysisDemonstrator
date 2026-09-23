@@ -1,0 +1,26 @@
+# ============================================================================= 
+# @file    config.yml
+# @authors Derek Anderson (derek.murphy.anderson@protonmail.com)
+# -----------------------------------------------------------------------------
+# @brief Snakemake config. Defines global parameters that
+#   can be overwritten at runtime. 
+# =============================================================================
+
+# datacard defining inputs
+#   - TODO should pull from
+#     template/output instead!
+input_card:
+  "input.yml"
+
+# generated output datacard
+output_card:
+  "out/output.yml"
+
+# template datacard for output
+template:
+  "template.yml"
+
+# name of list to dump input
+# files into
+input_list:
+  "lists/input.list"
