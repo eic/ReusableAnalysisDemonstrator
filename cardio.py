@@ -9,8 +9,8 @@ Attributes:
 
 Todo:
     - [] Card
-      - [] Create
-      - [] Dump files
+      - [x] Create
+      - [x] Dump files
       - [] Dump commands
     - [x] Load card
     - [x] Create card
@@ -18,6 +18,8 @@ Todo:
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict
+import datetime
+import os
 import yaml
 
 
@@ -36,12 +38,6 @@ class Card:
     """
     data: Dict[str, Any] = field(default_factory=dict)
 
-    def __getitem__(self, key: str) -> Any:
-        """
-        Get card data at 'key'.
-        """
-        return self.data[key]
-
     def __init__(self, path: str = None):
         """
         Initialize with a card at `path`.
@@ -51,7 +47,13 @@ class Card:
         """
         if path is not None:
             with open(Path(path), 'r') as card:
-                data = yaml.safe_load(card)
+                self.data = yaml.safe_load(card)
+
+    def __getitem__(self, key: str) -> Any:
+        """
+        Get card data at 'key'.
+        """
+        return self.data[key]
 
     def create(self, name: str) -> None:
         """
@@ -60,19 +62,34 @@ class Card:
 
         Attributes:
             name: path to datacard
-        """a
-        # TODO expand to tabulate files
-        # in output location
-        with open(name, 'w') as card:
+        """
+        card_data = self.data
+
+        # tabulate all files in 'location'
+        card_data['files'] = list()
+        for content in Path(card_data['location']).rglob("*"):
+            if content.is_file():
+                card_data['files'].append(str(content))
+
+        # add timestamp and dump to output card
+        card_data['timestamp'] = str(datetime.datetime.now())
+        with open(Path(name), 'w') as card:
             yaml.dump(self.data, card)
 
-    def dump_files(self, name: str, protocol: str = None, in_shell: bool = False) -> None:
+    def dump_files(self, name: str, protocol: str = None) -> None:
         """
         Dump files to a list at 'name'. If
         protocol is 'rucio', will query file
         catalog based on `identifier`.
         """
-        # TODO
+        os.makedirs(os.path.dirname(name))
+        if protocol == "rucio":
+            rucio_did = self.data["identifier"]
+            os.system(f"rucio replica list file --protocols root --pfns --rses isopenaccess {rucio_did} > {name}")
+        else:
+            with open (Path(name), 'w') as files:
+                for file in self.data["files"]:
+                    files.write(file + "\n")
         return
 
     def dump_commands(self, tag: str = None) -> None:
