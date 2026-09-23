@@ -4,8 +4,13 @@ A simple module to facilitate processing datacards
 during a snakemake workflow.
 
 Attributes:
-    Card (class): wrapper class to hold data from
-        loaded datacard
+    Card (class): wrapper class to hold and access
+        data from loaded datacard
+    load_card (function): instantiate a Card
+        object from datacard at provided path
+    make_card (function): create a datacard
+        based on a provided template and
+        instantiate Card object from it
 
 Todo:
     - [] Card
