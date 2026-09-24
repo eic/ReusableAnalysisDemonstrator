@@ -23,4 +23,9 @@ template:
 # name of list to dump input
 # files into
 input_list:
-  "lists/input.list"
+  "run/input.list"
+
+# name of snakemake file
+# to dump rules into
+rules_file:
+  "run/rules.smk"
