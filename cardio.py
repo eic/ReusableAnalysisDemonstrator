@@ -87,7 +87,9 @@ class Card:
         protocol is 'rucio', will query file
         catalog based on `identifier`.
         """
-        os.makedirs(os.path.dirname(name), exist_ok=True)
+        dirname = os.path.dirname(name)
+        if dirname != '':
+            os.makedirs(dirname, exist_ok=True)
         if protocol == "rucio":
             rucio_did = self.data["identifier"]
             os.system(f"rucio replica list file --protocols root --pfns --rses isopenaccess {rucio_did} > {name}")
@@ -97,13 +99,17 @@ class Card:
                     files.write(file + "\n")
         return
 
-    def dump_commands(self, tag: str = None) -> None:
+    def dump_rules(self, name: str) -> None:
         """
-        Dump commands for each rule to shell
-        scripts. Will append 'tag' to name
-        if not None.
+        Dump workflow rules to snakemake
+        file.
         """
-        # TODO
+        dirname = os.path.dirname(name)
+        if dirname != '':
+            os.makedirs(dirname, exist_ok=True)
+        with open(name, 'w') as file:
+            for step in self.data["workflow"]:
+                file.write(f"{step['step']}\n")
         return
 
 
