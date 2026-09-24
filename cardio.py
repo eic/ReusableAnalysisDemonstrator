@@ -13,10 +13,10 @@ Attributes:
         instantiate Card object from it
 
 Todo:
-    - [] Card
-      - [x] Create
+    - [x] Card
+      - [x] Create (FIXME: still eneed to cleanup rule copying)
       - [x] Dump files
-      - [] Dump commands
+      - [x] Dump commands
     - [x] Load card
     - [x] Create card
 """
