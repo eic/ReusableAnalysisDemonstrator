@@ -7,8 +7,8 @@ reading from a YAML datacard.
 
 
 ### To-Do
-- [ ] Implement cardio
-  - Still need to dump rules
+- [x] Implement cardio
+  - Need to clean up copying rules to output card
 - [x] Set up example cards
 - [x] Implement initial snakemake workflow w/ cardio
 - [ ] Remove hard-coded references to input card
