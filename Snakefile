@@ -4,7 +4,7 @@
 #          (derek.murphy.anderson@protonmail.com)
 # -----------------------------------------------
 # @brief Example snakefile utilizing cardio to
-#   extract input filelists, analysis rule and
+#   extract input filelists, analysis rules and
 #   run them.
 # ===============================================
 
@@ -19,11 +19,6 @@ icard.dump_files(config['input_list'], protocol="rucio")
 tcard.dump_rules(config['rules_file'])
 
 include: config['rules_file']
-
-# redeclare make_hists to specify input
-rule make_hists:
-    input:
-        list = f"{config['input_list']}",
 
 rule all:
     input:

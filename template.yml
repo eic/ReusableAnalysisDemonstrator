@@ -43,7 +43,7 @@ workflow:
   - step: |
       rule make_hists:
           input:
-              list = "list/files.list", # NOTE this can be overwritten in main
+              list = "run/input.list",
           output:
               hist = "out/output.root",
           params:
