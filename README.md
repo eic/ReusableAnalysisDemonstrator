@@ -6,30 +6,22 @@ a simple Python module, `cardio`, which automates the creation and
 reading from a YAML datacard.
 
 
-### To-Do
-- [x] Implement cardio
-  - Need to clean up copying rules to output card
-- [x] Set up example cards
-- [x] Implement initial snakemake workflow w/ cardio
-- [ ] Remove hard-coded references to input card
-- [ ] Split out workflow commands from Snakefile
-- [ ] Run full example
-
-
 ### File Structures
 
 ```
 |-- analysis
-|    |-- MakeValidationHists.C # process eicrecon output to make hists
-|    `-- MakeValidationPlots.C # make plots from output of *hists.C
+|     |-- MakeValidationHists.C # process eicrecon output to make hists
+|     `-- MakeValidationPlots.C # make plots from output of *hists.C
 |-- cardio.py  # cardio implementation
 |-- config.yml # snakemake workflow parameters
 |-- input.yml  # example input datacard
 |-- README.md  # description, quickstart
+|-- scripts
+|     |- cleanup.sh         # remove run/output directories
+|     `- full_snakemake.smk # Snakefile to run pipeline without cards
 |-- Snakefile    # snakemake workflow
 `-- template.yml # template output datacard
 ```
-
 
 ### Usage
 
@@ -45,10 +37,16 @@ Cardio can be used interactively in REPL:
 './out'
 ```
 
-***[IN PROGRESS]***
+Or in a Snakefile, as demonstrated in this repo.
 
-After updating any relevant options in `snake/*.yml`
-and `Snakefile`, run in `eic-shell`:
-```
-Snakemake --cores <N> 
-```
+### Demonstrator
+
+The following workflow demonstrates how these cards can be used for
+reproducibility.
+
+1. Perform initial run with `snakemake --cores 1`
+2. Move output somewhere safe (e.g. `mv out out0`), and clean up
+   with `./scripts/cleanup.py`
+3. Rerun analysis using the 1st output card as a new template
+   with `snakemake --cores 1 --config template="out0/output.yml"`.
+4. Inspect the output from both runs to see that they're the same.
