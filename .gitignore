@@ -2,5 +2,5 @@
 *.root
 *.png
 .snakemake/
-lists/
 run/
+out/

@@ -39,29 +39,28 @@ location: "./out"
 #   - NOTE each step will be
 #     copied directly into a
 #     snakemake file
-workflow:
-  - step: |
-      rule make_hists:
-          input:
-              list = "run/input.list",
-          output:
-              hist = "out/output.root",
-          params:
-              nfile  = 3,
-              nevent = 100,
-          shell:
-              "root -b -q analysis/MakeJetValidationHists.C\'(\"{output.hist}\", \"{input.list}\", {params.nfile}, {params.nevent})\'"
-  - step: |
-      rule make_plots:
-          input:
-              hist = "out/output.root",
-          output:
-              plot = "out/plots/matchedJetResolutionVsEta.demo.png"
-          params:
-              path = "out/plots",
-              suff = "demo",
-          shell:
-              "root -b -q analysis/MakeJetValidationPlots.C\'(\"{params.path}\", \"{params.suff}\", \"{input.hist}\")\'"
+workflow: |
+  rule make_hists:
+      input:
+          list = "run/input.list",
+      output:
+          hist = "out/output.root",
+      params:
+          nfile  = 3,
+          nevent = 100,
+      shell:
+          "root -b -q analysis/MakeJetValidationHists.C\'(\"{output.hist}\", \"{input.list}\", {params.nfile}, {params.nevent})\'"
+
+  rule make_plots:
+      input:
+          hist = "out/output.root",
+      output:
+          plot = "out/plots/matchedJetResolutionVsEta.demo.png"
+      params:
+          path = "out/plots",
+          suff = "demo",
+      shell:
+          "root -b -q analysis/MakeJetValidationPlots.C\'(\"{params.path}\", \"{params.suff}\", \"{input.hist}\")\'"
 
 # TODO add other fields? they aren't
 #   really relevant for the demo

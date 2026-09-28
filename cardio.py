@@ -4,6 +4,11 @@ A simple module to facilitate processing datacards
 during a snakemake workflow.
 
 Attributes:
+    code_representer (function): custom yaml
+        representer to enforce codeblock
+        formatting
+    CodeDumper (class): custom yaml dumper
+        for codeblocks
     Card (class): wrapper class to hold and access
         data from loaded datacard
     load_card (function): instantiate a Card
@@ -11,14 +16,6 @@ Attributes:
     make_card (function): create a datacard
         based on a provided template and
         instantiate Card object from it
-
-Todo:
-    - [x] Card
-      - [x] Create (FIXME: still eneed to cleanup rule copying)
-      - [x] Dump files
-      - [x] Dump commands
-    - [x] Load card
-    - [x] Create card
 """
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -26,6 +23,22 @@ from typing import Any, Dict
 import datetime
 import os
 import yaml
+
+
+def code_representer(dumper, data):
+    """
+    Custom YAML representer to preserve
+    literal block formatting of code
+    snippets.
+    """
+    if '\n' in data:
+        return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
+    return dumper.represent_scalar('tag:yaml.org,2002:str', data)
+
+class CodeDumper(yaml.Dumper):
+    pass
+
+CodeDumper.add_representer(str, code_representer)
 
 
 @dataclass
@@ -36,12 +49,18 @@ class Card:
 
     Attributes:
         data: data from the datacard
+        code_keywords: keywords identifying
+            codeblocks in card data
 
     Interface:
         dump_files:    dump filepaths to a list
         dump_commands: dump commands to bash scripts
     """
     data: Dict[str, Any] = field(default_factory=dict)
+
+    # keywords identifying code blocks
+    # in card data
+    CODE_KEYWORDS = {'workflow'}
 
     def __init__(self, path: str = None):
         """
@@ -65,27 +84,42 @@ class Card:
         Create a datacard at 'name' and dump
         data to it.
 
-        Attributes:
+        Arguments:
             name: path to datacard
         """
         card_data = self.data
 
-        # tabulate all files in 'location'
-        card_data['files'] = list()
+        # add timestamp and tabulate all files in 'location'
+        card_data['timestamp'] = str(datetime.datetime.now())
+        card_data['files']     = list()
         for content in Path(card_data['location']).rglob("*"):
             if content.is_file():
                 card_data['files'].append(str(content))
 
-        # add timestamp and dump to output card
-        card_data['timestamp'] = str(datetime.datetime.now())
+        # sort data into code and non-code
+        # (code needs forced literal blocks)
+        code_data    = {}
+        noncode_data = {}
+        for key, value in card_data.items():
+            if key in self.CODE_KEYWORDS:
+                code_data[key] = value
+            else:
+                noncode_data[key] = value
+
+        # dump data to output card
         with open(Path(name), 'w') as card:
-            yaml.dump(self.data, card)
+            yaml.dump(noncode_data, card)
+            yaml.dump(code_data, card, Dumper=CodeDumper)
 
     def dump_files(self, name: str, protocol: str = None) -> None:
         """
         Dump files to a list at 'name'. If
         protocol is 'rucio', will query file
         catalog based on `identifier`.
+
+        Arguments:
+            name:     name of file to dump to
+            protocol: how to build list of files
         """
         dirname = os.path.dirname(name)
         if dirname != '':
@@ -97,20 +131,20 @@ class Card:
             with open (Path(name), 'w') as files:
                 for file in self.data["files"]:
                     files.write(file + "\n")
-        return
 
     def dump_rules(self, name: str) -> None:
         """
         Dump workflow rules to snakemake
         file.
+
+        Arguments:
+            name: name of file to dump to
         """
         dirname = os.path.dirname(name)
         if dirname != '':
             os.makedirs(dirname, exist_ok=True)
         with open(name, 'w') as file:
-            for step in self.data["workflow"]:
-                file.write(f"{step['step']}\n")
-        return
+            file.write(f"{self.data["workflow"]}")
 
 
 def load_card(path: str) -> Card:
