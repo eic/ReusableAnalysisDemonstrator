@@ -23,8 +23,7 @@ description: "Jet validation plots for resuable analysis demonstration"
 # inputs point back to relevant datacards,
 #   using them as stand-ins for either
 #   individual files or entire datasets
-inputs:
-  - "./input.yml"
+input: "./input.yml"
 
 # location where files are stored,
 #   cardio will append all files
@@ -36,9 +35,8 @@ location: "./out"
 #   should describe basic steps
 #   needed to recreate the data
 #   as a list of snakemake rules
-#   - NOTE each step will be
-#     copied directly into a
-#     snakemake file
+#   - NOTE will be copied directly
+#     into a snakemake file
 workflow: |
   rule make_hists:
       input:

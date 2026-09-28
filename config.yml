@@ -6,12 +6,6 @@
 #   can be overwritten at runtime. 
 # =============================================================================
 
-# datacard defining inputs
-#   - TODO should pull from
-#     template/output instead!
-input_card:
-  "input.yml"
-
 # generated output datacard
 output_card:
   "out/output.yml"

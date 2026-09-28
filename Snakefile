@@ -16,10 +16,11 @@ import os
 import sys
 import cardio
 
-icard = cardio.load_card(config['input_card'])
 tcard = cardio.load_card(config['template'])
-icard.dump_files(config['input_list'], protocol="rucio")
+icard = tcard.input()
 tcard.dump_rules(config['rules_file'])
+icard.dump_files(config['input_list'], protocol="rucio")
+
 os.makedirs("out/plots", exist_ok=True)
 
 # run workflow ----------------------------------

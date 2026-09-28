@@ -96,6 +96,9 @@ class Card:
             if content.is_file():
                 card_data['files'].append(str(content))
 
+        # make sure full path of input card is resolved
+        self._resolve_input()
+
         # sort data into code and non-code
         # (code needs forced literal blocks)
         code_data    = {}
@@ -145,6 +148,20 @@ class Card:
             os.makedirs(dirname, exist_ok=True)
         with open(name, 'w') as file:
             file.write(f"{self.data["workflow"]}")
+
+    def input(self) -> None:
+        """
+        Load and return input card data.
+        """
+        return Card(self.data["input"])
+
+    def _resolve_input(self) -> None:
+        """
+        Resolve filepath to input card.
+        Likely will be handled by DB
+        queries in full version.
+        """
+        self.data["input"] = str(Path(self.data["input"]).resolve())
 
 
 def load_card(path: str) -> Card:
