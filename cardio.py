@@ -60,7 +60,7 @@ class Card:
 
     # keywords identifying code blocks
     # in card data
-    CODE_KEYWORDS = {'workflow'}
+    CODE_KEYWORDS = {'configuration', 'workflow'}
 
     def __init__(self, path: str = None):
         """
@@ -79,15 +79,22 @@ class Card:
         """
         return self.data[key]
 
-    def create(self, name: str) -> None:
+    def create(self, name: str, area: str = None) -> None:
         """
         Create a datacard at 'name' and dump
-        data to it.
+        data to it. Can override 'location'
+        entry with 'area' argument.
 
         Arguments:
             name: path to datacard
+            area: (optional) path to override
+                  'location' entry with
         """
         card_data = self.data
+
+        # if 'area' provided, set 'location' to it
+        if area != None:
+            card_data['location'] = area
 
         # add timestamp and tabulate all files in 'location'
         card_data['timestamp'] = str(datetime.datetime.now())
@@ -135,19 +142,41 @@ class Card:
                 for file in self.data["files"]:
                     files.write(file + "\n")
 
-    def dump_rules(self, name: str) -> None:
+    def dump_rules(self, rules_name: str, config_name: str = None) -> None:
         """
         Dump workflow rules to snakemake
         file.
 
         Arguments:
-            name: name of file to dump to
+            rules_name:  name of file to dump rules to
+            config_name: (optional) name of file to dump config to
+
+        Raises:
+            RuntimeError: if card has 'config' block in it, but
+                          no name provided for file to dump into.
         """
-        dirname = os.path.dirname(name)
-        if dirname != '':
-            os.makedirs(dirname, exist_ok=True)
-        with open(name, 'w') as file:
-            file.write(f"{self.data["workflow"]}")
+        rules_dir = os.path.dirname(rules_name)
+        if rules_dir != '':
+            os.makedirs(rules_dir, exist_ok=True)
+
+        # if config present, make sure config file
+        # has been passed
+        has_config = "configuration" in self.data
+        if has_config and (config_name == None):
+            raise RuntimeError("config present in data but no config_name provided! Please provide name to dump config to")
+        elif has_config:
+            config_dir = os.path.dirname(config_name)
+            if config_dir != '':
+                os.makedirs(config_dir, exist_ok=True)
+
+        with open(rules_name, 'w') as file:
+            if has_config:
+                file.write(f"configfile: \"{config_name}\"\n\n")
+            file.write(f"{self.data['workflow']}")
+
+        if has_config:
+            with open(config_name, 'w') as file:
+                file.write(f"{self.data['configuration']}")
 
     def input(self) -> None:
         """
@@ -174,15 +203,17 @@ def load_card(path: str) -> Card:
     return Card(path)
 
 
-def make_card(path: str, temp: str) -> Card:
+def make_card(path: str, temp: str, area: str = None) -> Card:
     """
     Make a datacard at 'path' based
-    on template at 'temp'.
+    on template at 'temp'. Can override
+    'location' in card with 'area'.
 
     Arguments:
        path: path to card to make
        temp: path to template card
+       area: (optional) output path to query
     """
     output = Card(temp)
-    output.create(path)
+    output.create(path, area)
     return Card(path)

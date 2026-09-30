@@ -6,9 +6,9 @@
 #   can be overwritten at runtime. 
 # =============================================================================
 
-# generated output datacard
-output_card:
-  "out/output.yml"
+# name of generated output datacard
+card_name:
+  "output.yml"
 
 # template datacard for output
 template:
@@ -23,3 +23,8 @@ input_list:
 # to dump rules into
 rules_file:
   "run/rules.smk"
+
+# name of snakemake config
+# to dump constants into
+config_file:
+  "run/rules.yml"
