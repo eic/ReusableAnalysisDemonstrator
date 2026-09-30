@@ -34,15 +34,27 @@ location: "./out"
 # workflow to produce data, this
 #   should describe basic steps
 #   needed to recreate the data
-#   as a list of snakemake rules
-#   - NOTE will be copied directly
-#     into a snakemake file
+#   as a snakemake workflow
+#   - NOTE worfkflow will be copied
+#     directly into a snakemake
+#     file
+#   - NOTE configuration variables
+#     will be configurable at runtime
+configuration: |
+  run_dir:
+    "run"
+  hist_out:
+    "out"
+  plot_out:
+    "out/plot"
+  suffix:
+    "demo"
 workflow: |
   rule make_hists:
       input:
-          list = "run/input.list",
+          list = f"{config['run_dir']}/input.list",
       output:
-          hist = "out/output.root",
+          hist = f"{config['hist_out']}/output.root",
       params:
           nfile  = 3,
           nevent = 100,
@@ -51,16 +63,11 @@ workflow: |
 
   rule make_plots:
       input:
-          hist = "out/output.root",
+          hist = f"{config['hist_out']}/output.root",
       output:
-          plot = "out/plots/matchedJetResolutionVsEta.demo.png"
+          plot = f"{config['plot_out']}/matchedJetResolutionVsEta.{config['suffix']}.png"
       params:
-          path = "out/plots",
-          suff = "demo",
+          path = f"{config['plot_out']}",
+          suff = f"{config['suffix']}",
       shell:
           "root -b -q analysis/MakeJetValidationPlots.C\'(\"{params.path}\", \"{params.suff}\", \"{input.hist}\")\'"
-
-# TODO add other fields? they aren't
-#   really relevant for the demo
-#     - app
-#     - repo, branch, commit
