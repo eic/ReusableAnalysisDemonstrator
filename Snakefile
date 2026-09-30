@@ -10,6 +10,21 @@
 
 configfile: "config.yml"
 
+# prestart: generate input, rules ---------------
+
+import cardio
+tcard = cardio.load_card(config['template'])
+icard = tcard.input()
+tcard.dump_rules(config['rules_file'], config['config_file'])
+icard.dump_files(config['input_list'], protocol="rucio")
+
+# startup: make output dirs ---------------------
+
+onstart:
+    import os
+    os.makedirs(config['hist_out'], exist_ok=True)
+    os.makedirs(config['plot_out'], exist_ok=True)
+
 # run workflow ----------------------------------
 
 include: config['rules_file']
@@ -17,18 +32,6 @@ include: config['rules_file']
 rule all:
     input:
         f"{config['plot_out']}/matchedJetResolutionVsEta.{config['suffix']}.png"
-
-# setup: make input list, output dirs -----------
-
-onstart:
-    import os
-    import cardio
-    tcard = cardio.load_card(config['template'])
-    icard = tcard.input() # retrieve card for input
-    tcard.dump_rules(config['rules_file'], config['config_file'])
-    icard.dump_files(config['input_list'], protocol="rucio")
-    os.makedirs(config['hist_out'], exist_ok=True)
-    os.makedirs(config['plot_out'], exist_ok=True)
 
 # shutdown: write output card ------------------
 
