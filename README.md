@@ -44,9 +44,14 @@ Or in a Snakefile, as demonstrated in this repo.
 The following workflow demonstrates how these cards can be used for
 reproducibility.
 
-1. Perform initial run with `snakemake --cores 1`
-2. Move output somewhere safe (e.g. `mv out out0`), and clean up
-   with `./scripts/cleanup.py`
-3. Rerun analysis using the 1st output card as a new template
-   with `snakemake --cores 1 --config template="out0/output.yml"`.
-4. Inspect the output from both runs to see that they're the same.
+1. Perform initial run:
+```
+snakemake --cores 1 --config hist_out="out_0" plot_out="out_0/plot"
+```
+
+2. Rerun using the 1st output card as a new template:
+```
+snakemake --cores 1 --config hist_out="out_1" plot_out="out_1/plot" template="out_0/output.yml"
+```
+
+3. Inspect the output from both runs to see that they're the same.
