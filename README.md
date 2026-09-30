@@ -26,7 +26,7 @@ reading from a YAML datacard.
 ### Usage
 
 Cardio can be used interactively in REPL:
-```python-repl
+```python
 >>> import cardio
 >>> in_card = cardio.load_card("input.yml")
 >>> in_card["description"]
