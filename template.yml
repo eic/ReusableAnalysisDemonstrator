@@ -56,8 +56,8 @@ workflow: |
       output:
           hist = f"{config['hist_out']}/output.root",
       params:
-          nfile  = 3,
-          nevent = 100,
+          nfile  = 1000,
+          nevent = -1,
       shell:
           "root -b -q analysis/MakeJetValidationHists.C\'(\"{output.hist}\", \"{input.list}\", {params.nfile}, {params.nevent})\'"
 
