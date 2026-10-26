@@ -13,6 +13,6 @@ fi
 source .venv/bin/activate
 
 # NB the snakemake install is to make sure
-#   it uses the virtual env
+#   it uses the virtual environment
 pip install git+https://github.com/eic/cardio.git@get-pip-install-working
 pip install --ignore-installed snakemake
