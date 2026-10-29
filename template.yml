@@ -31,6 +31,16 @@ input: "./input.yml"
 #   card
 location: "./out"
 
+# eic-shell details
+#   - container and version should
+#     be specified
+#   - cardio has utilities to help
+#     automate pulling and running
+#     specific versions
+eic_shell:
+  container: eic_xl
+  version: 26.10.0-stable
+
 # workflow to produce data, this
 #   should describe basic steps
 #   needed to recreate the data
