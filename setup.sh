@@ -4,15 +4,36 @@
 # @authors Derek Anderson
 #          (derek.murphy.anderson@protonmail.com)
 # -----------------------------------------------
-# @brief Run to set up environment for test
+# @brief Set up environment for running
+#   demonstration. Can provide directory
+#   to install virtual environment to
+#   as an argument:
+#
+#       ./setup.sh .my_venv
 # ===============================================
 
-if [ ! -d ".venv" ]; then
-  python -m venv .venv
+dir=".venv"
+if [ $# -gt 0 ]; then
+  dir=$1
 fi
-source .venv/bin/activate
 
-# NB the snakemake install is to make sure
-#   it uses the virtual environment
-pip install git+https://github.com/eic/cardio.git@get-pip-install-working
+if [ ! -d "$dir" ]; then
+  python -m venv $dir
+fi
+source $dir/bin/activate
+
+# NOTE the snakemake install is to make
+#   sure it uses the virtual environment
+#   with cardio
+pip install git+https://github.com/eic/cardio.git
 pip install --ignore-installed snakemake
+
+# if not done, retrieve relevant
+# eic-shell to use
+if [ ! -d "shell" ]; then
+python - <<'PY'
+import cardio
+card = cardio.Card("template.yml")
+card.get_shell("./shell")
+PY
+fi
