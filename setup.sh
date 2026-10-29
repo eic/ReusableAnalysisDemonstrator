@@ -4,7 +4,7 @@
 # @authors Derek Anderson
 #          (derek.murphy.anderson@protonmail.com)
 # -----------------------------------------------
-# @brief Run to set up environment for test 
+# @brief Run to set up environment for test
 # ===============================================
 
 if [ ! -d ".venv" ]; then
