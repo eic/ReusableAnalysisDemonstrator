@@ -3,35 +3,44 @@
 # @authors Derek Anderson
 #          (derek.murphy.anderson@protonmail.com)
 # -----------------------------------------------
-# @brief Template datacard. Cardio processes
-#   this when generating output datacards.
+# @brief Template data card. Cardio processes
+#   this when generating output data cards.
 #   Information such as GitHub, Inputs, etc.
-#   are copied into the output datacard.
+#   are copied into the output data card.
 # ===============================================
 
-# analysis descriptors likely will vary based
-# on purpose
+# analysis identifiers/description: some unique
+#   ID of output dataset (likely will vary based
+#   on use) and human readable description
 #   - publication data might want to make use
 #     of an associated DOI or something
 #   - validation data would want to have
 #     something that ties it to the campaign
 #     or pipeline it's for
-identifier: "epic:reusable_analysis_demo:output"
+identifier:
+  "epic:reusable_analysis_demo:output"
 
-description: "Jet validation plots for resuable analysis demonstration"
+description:
+  "Jet validation plots for resuable analysis demonstration"
 
-# inputs point back to relevant datacards,
-#   using them as stand-ins for either
-#   individual files or entire datasets
-input: "./cards/input.yml"
+# inputs: pointers back to relevant data cards
+#   being used as input for analysis.
+#   - a card might represent either a single
+#     sample/dataset (e.g. campaign output) or
+#     multiple (e.g. for a specific analysis)
+#   - datasets can be listed directly here
+#     as well
+inputs:
+  - "./cards/input_0.yml" # NOTE the relative path!
+  - "./cards/input_1.yml"
 
-# location where files are stored,
+# location: where files are stored,
 #   cardio will append all files
 #   in this location to the output
 #   card
 location: "./out"
 
-# eic-shell details
+# eic-shell details:
 #   - container and version should
 #     be specified
 #   - cardio has utilities to help
