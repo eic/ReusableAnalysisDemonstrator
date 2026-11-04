@@ -23,7 +23,7 @@ description: "Jet validation plots for resuable analysis demonstration"
 # inputs point back to relevant datacards,
 #   using them as stand-ins for either
 #   individual files or entire datasets
-input: "./input.yml"
+input: "./cards/input.yml"
 
 # location where files are stored,
 #   cardio will append all files

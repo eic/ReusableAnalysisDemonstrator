@@ -12,7 +12,7 @@ card_name:
 
 # template datacard for output
 template:
-  "template.yml"
+  "cards/template.yml"
 
 # name of list to dump input
 # files into
