@@ -13,10 +13,11 @@ configfile: "config.yml"
 # prestart: generate input, rules ---------------
 
 import cardio
-tcard = cardio.load_card(config['template'])
-icard = tcard.input()
+tcard  = cardio.load_card(config['template'])
+icards = tcard.inputs()
 tcard.dump_rules(config['rules_file'], config['config_file'])
-icard.dump_files(config['input_list'], protocol="rucio")
+for icard in icards:
+    icard.dump_files(config['input_list'], 3)
 
 # startup: make output dirs ---------------------
 
