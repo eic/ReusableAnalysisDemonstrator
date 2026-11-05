@@ -33,7 +33,7 @@ pip install --ignore-installed snakemake
 if [ ! -d "shell" ]; then
 python - <<'PY'
 import cardio
-card = cardio.Card("template.yml")
+card = cardio.Card("cards/template.yml")
 card.get_shell("./shell")
 PY
 fi

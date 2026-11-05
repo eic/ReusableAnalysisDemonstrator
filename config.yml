@@ -12,7 +12,7 @@ card_name:
 
 # template datacard for output
 template:
-  "template.yml"
+  "cards/template.yml"
 
 # name of list to dump input
 # files into
@@ -28,3 +28,8 @@ rules_file:
 # to dump constants into
 config_file:
   "run/rules.yml"
+
+# number of files to dump
+# from each input dataset
+ndump:
+  3
