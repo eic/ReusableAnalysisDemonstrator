@@ -28,3 +28,8 @@ rules_file:
 # to dump constants into
 config_file:
   "run/rules.yml"
+
+# number of files to dump
+# from each input dataset
+ndump:
+  3

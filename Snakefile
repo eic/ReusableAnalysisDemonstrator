@@ -17,7 +17,7 @@ tcard  = cardio.load_card(config['template'])
 icards = tcard.inputs()
 tcard.dump_rules(config['rules_file'], config['config_file'])
 for icard in icards:
-    icard.dump_files(config['input_list'], 3)
+    icard.dump_files(config['input_list'], config['ndump'])
 
 # startup: make output dirs ---------------------
 

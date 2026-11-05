@@ -70,16 +70,16 @@ configuration: |
     "demo"
   nevent:
     100
+  nfiles:
+    -1
 workflow: |
   rule make_hists:
       input:
           list = f"{config['run_dir']}/input.list",
       output:
           hist = f"{config['hist_out']}/output.root",
-      params:
-          nfile = -1,
       shell:
-          "root -b -q analysis/MakeJetValidationHists.C\'(\"{output.hist}\", \"{input.list}\", {params.nfile}, {config[nevent]})\'"
+          "root -b -q analysis/MakeJetValidationHists.C\'(\"{output.hist}\", \"{input.list}\", {config[nfiles]}, {config[nevent]})\'"
 
   rule make_plots:
       input:
